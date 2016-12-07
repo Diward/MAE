@@ -2,10 +2,10 @@ clc;clear;
 
 client_id = '227XRC';
 
-url = 'https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=227XRC&scope=activity%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight&expires_in=604800';
-web(url, '-browser');
+%url = 'https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=227XRC&scope=activity%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight&expires_in=604800';
+%web(url, '-browser');
 
-header1 = http_createHeader('Authorization','Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzR1AzWUsiLCJhdWQiOiIyMjdYUkMiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNDgwNjA2MDY2LCJpYXQiOjE0ODAwMDEyNjZ9.bEV3N02NqzhdQ676w3tHeMZO0gp_wbEssYrp6AR1Nyk');
+header1 = http_createHeader('Authorization','Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzR1AzWUsiLCJhdWQiOiIyMjdYUkMiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNDgxNzM2NDQzLCJpYXQiOjE0ODExMzE2ODB9.sRY4pr3r2GfaPNrxvk_c9jx6aghuVWlpUFnx-OwhUFc');
 url2 = 'https://api.fitbit.com/1/user/-/activities/heart/date/today/1d/1sec.json';
 response = urlread2(url2, 'GET','', header1);
 

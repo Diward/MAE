@@ -1,4 +1,3 @@
-clc; clear;
 
 token_struct = load('files/token.mat');
 token = token_struct.token;

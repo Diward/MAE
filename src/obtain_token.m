@@ -1,4 +1,3 @@
-clc; clear;
 
 url_base = 'https://www.fitbit.com/oauth2/authorize?response_type=token&';
 client_id = 'client_id=227XRC';

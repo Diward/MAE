@@ -1,6 +1,6 @@
 clc; clear;
 
-token_struct = load('token.mat');
+token_struct = load('files/token.mat');
 token = token_struct.token;
 
 petition_h = http_createHeader('Authorization',strcat('Bearer',{' '},token));

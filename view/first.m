@@ -22,7 +22,7 @@ function varargout = first(varargin)
 
 % Edit the above text to modify the response to help first
 
-% Last Modified by GUIDE v2.5 08-Dec-2016 19:57:34
+% Last Modified by GUIDE v2.5 18-Dec-2016 23:37:57
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -43,7 +43,6 @@ else
 end
 % End initialization code - DO NOT EDIT
 
-
 % --- Executes just before first is made visible.
 function first_OpeningFcn(hObject, eventdata, handles, varargin)
 % This function has no output args, see OutputFcn.
@@ -54,13 +53,12 @@ function first_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for first
 handles.output = hObject;
-
+init(handles);
+handles.period = '';
+handles.from = '';
+handles.to = '';
 % Update handles structure
 guidata(hObject, handles);
-
-% UIWAIT makes first wait for user response (see UIRESUME)
-% uiwait(handles.figure1);
-
 
 % --- Outputs from this function are returned to the command line.
 function varargout = first_OutputFcn(hObject, eventdata, handles) 
@@ -72,21 +70,16 @@ function varargout = first_OutputFcn(hObject, eventdata, handles)
 % Get default command line output from handles structure
 varargout{1} = handles.output;
 
+function init(handles)
+set(handles.login_btn, 'Enable', 'off');
 
-% --- Executes on button press in login_btn.
-function login_btn_Callback(hObject, eventdata, handles)
-% hObject    handle to login_btn (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-% --- Executes during object creation, after setting all properties.
 function instructions_text_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to instructions_text (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 s1 = ['1.- Clicking on Login button a web browser will be opened '...
-      'for you to log with your fitbit account.'];
+      'for you to log with your fitbit account. Before doing that, you '...
+      'have to set the options on CONFIGURATION panel.'];
 s2 = ['2.- You will be redirected to a new window after the login, where it '...
       'will ask you for the permissions of the app. Just mark all the checks ' ...
       'to allow the app acces all the data.'];
@@ -98,5 +91,36 @@ s4 = strcat(char(169), ' Created by Eduardo de Prado.');
 s5 = 'MAE AUTUM 2016';
 s6 = 'Version 0.1';
 s = sprintf('%s\n\n%s\n\n%s\n\n%s\n%s\n%s', s1, s2, s3, s4, s5, s6);
-
 set(hObject,'String',s);
+
+% --- Executes on button press in login_btn.
+function login_btn_Callback(hObject, eventdata, handles)
+% hObject    handle to login_btn (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+obtain_token;
+%%% set(handles.login_btn, 'Enable', 'off');
+if ( handles.period == 1 )
+    set(handles.login_btn, 'Enable', 'off');
+    handles.fig_today = today;
+else
+    disp('week or month')
+end
+
+% --- Executes on button press in conf_btn.
+function conf_btn_Callback(hObject, eventdata, handles)
+% hObject    handle to conf_btn (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+handles.fig_config = config;
+guidata(hObject, handles);
+
+% --- Executes when user attempts to close fig_first.
+function fig_first_CloseRequestFcn(hObject, eventdata, handles)
+% hObject    handle to fig_first (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+if(isfield(handles,'fig_config') && ishandle(handles.fig_config))
+    delete(handles.fig_config);
+end
+delete(hObject);

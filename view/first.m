@@ -54,9 +54,10 @@ function first_OpeningFcn(hObject, eventdata, handles, varargin)
 % Choose default command line output for first
 handles.output = hObject;
 init(handles);
-handles.period = '';
-handles.from = '';
-handles.to = '';
+handles.from_d = '';
+handles.to_d = '';
+handles.from_h = '';
+handles.to_h = '';
 % Update handles structure
 guidata(hObject, handles);
 
@@ -99,13 +100,9 @@ function login_btn_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 obtain_token;
-%%% set(handles.login_btn, 'Enable', 'off');
-if ( handles.period == 1 )
-    set(handles.login_btn, 'Enable', 'off');
-    handles.fig_today = today;
-else
-    disp('week or month')
-end
+set(handles.login_btn, 'Enable', 'off');
+handles.fig_panel = panel;
+guidata(hObject, handles);
 
 % --- Executes on button press in conf_btn.
 function conf_btn_Callback(hObject, eventdata, handles)
@@ -122,5 +119,8 @@ function fig_first_CloseRequestFcn(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 if(isfield(handles,'fig_config') && ishandle(handles.fig_config))
     delete(handles.fig_config);
+end
+if(isfield(handles,'fig_panel') && ishandle(handles.fig_panel))
+    delete(handles.fig_panel);
 end
 delete(hObject);

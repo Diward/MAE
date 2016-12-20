@@ -22,7 +22,7 @@ function varargout = config(varargin)
 
 % Edit the above text to modify the response to help config
 
-% Last Modified by GUIDE v2.5 18-Dec-2016 21:57:21
+% Last Modified by GUIDE v2.5 19-Dec-2016 18:56:37
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -208,26 +208,65 @@ from_h = str2num(get(handles.from_hh, 'String'));
 from_m = str2num(get(handles.from_mm, 'String'));
 to_h = str2num(get(handles.to_hh, 'String'));
 to_m = str2num(get(handles.to_mm, 'String'));
-
+try
+    formatOut = 'yyyy-mm-dd';
+    date = datestr(get(handles.from_d,'String'),formatOut);
+    date_num = datenum(date);
+    if date_num < datenum(datestr(now,formatOut))
+        date_ok = 1;
+    else
+        date_ok = 0;
+    end
+catch
+    date_ok = 0;
+end  
 if( length([from_h, from_m, to_h, to_m]) == 4 && ...
 (0 <= from_h) && (from_h <= 23 ) && (0 <= to_h) && (to_h <= 23) && ...
-(0 <= from_m) && (from_m <= 60) && (0 <= to_m) && (to_m <= 60) )
-    set(handles.error_msg, 'String', get(handles.popupmenu1, 'Value'));
-     
+(0 <= from_m) && (from_m <= 60) && (0 <= to_m) && (to_m <= 60) && date_ok )
     first_fig = findobj('Tag','fig_first');
     first_fig_handles = guidata(first_fig);
     set(first_fig_handles.login_btn, 'Enable', 'on');
     
     from = strcat(get(handles.from_hh, 'String'), ':', get(handles.from_mm, 'String'));
     to = strcat(get(handles.to_hh, 'String'), ':', get(handles.to_mm, 'String'));  
-    first_fig_handles.from = from;
-    first_fig_handles.to = to;
-    first_fig_handles.period = get(handles.popupmenu1, 'Value');
+    first_fig_handles.from_h = from;
+    first_fig_handles.to_h = to;
+    first_fig_handles.from_d = date;
+    first_fig_handles.to_d = get(handles.text_today, 'String');
     guidata(first_fig, first_fig_handles);
     
-    close(handles.fig_config);
+    close(handles.fig_config);      
 else 
-    set(handles.error_msg, 'String', 'ERROR: Bad hour format');
+    set(handles.error_msg, 'String', 'ERROR: Bad hour or date format');
 end
 
-%function init(handles)
+% --- Executes during object creation, after setting all properties.
+function from_d_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to from_d (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes during object creation, after setting all properties.
+function text_today_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to text_today (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+formatOut = 'yyyy-mm-dd';
+set(hObject, 'String', datestr(now,formatOut));
+
+
+
+function from_d_Callback(hObject, eventdata, handles)
+% hObject    handle to from_d (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of from_d as text
+%        str2double(get(hObject,'String')) returns contents of from_d as a double

@@ -4,7 +4,6 @@ client_id = 'client_id=227XRC';
 scope = [ '&scope=activity%20heartrate%20location%20nutrition%20profile' ...
           '%20settings%20sleep%20social%20weight&expires_in=604800' ];
 url = strcat(url_base, client_id, scope);
-      
 [s,browser] = web(url, '-new', '-noaddressbox', '-notoolbar'); 
 while s == 0
     cloc = get(browser, 'currentLocation'); 

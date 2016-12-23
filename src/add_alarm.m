@@ -11,8 +11,9 @@ json = loadjson(response);
 tracker_id = json{1,1}.id;
 %% POST ALARM
 petition_url = strcat('https://api.fitbit.com/1/user/-/devices/tracker/',tracker_id,'/alarms.json');
+string = strcat('time=',hour,'&enabled=true&recurring=false&weekDays=',days);
 [queryString,header] = http_paramsToString({'time' hour 'enabled' 'true' 'recurring' 'false' 'weekDays' days}, 1);
-response = urlread2(petition_url, 'POST',queryString , [header petition_h]);
+response = urlread2(petition_url, 'POST',string , [petition_h]);
 json = loadjson(response);
 end
 

@@ -101,7 +101,7 @@ if( length([from_h, from_m, to_h, to_m]) == 4 && ...
 (0 <= from_m) && (from_m <= 60) && (0 <= to_m) && (to_m <= 60) && ...
 from_h+from_m < to_h+to_m)
     from = strcat(get(handles.from_hh, 'String'), ':', get(handles.from_mm, 'String'));
-    to = strcat(get(handles.to_hh, 'String'), ':', get(handles.from_mm, 'String'));  
+    to = strcat(get(handles.to_hh, 'String'), ':', get(handles.to_mm, 'String'));  
     hour = strcat(from,'/',to);
     res = true;
 else 

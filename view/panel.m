@@ -36,10 +36,10 @@ delete(hObject);
 function init(hObject)
 handles = guidata(hObject);
 [ steps, kcal, hr, floors ] = get_data(handles.date,handles.hour);
-init_steps_axes(hObject, steps);
-init_hr_axes(hObject, hr);
 init_kcal(hObject, kcal);
 init_floors(hObject, floors);
+init_steps_axes(hObject, steps);
+init_hr_axes(hObject, hr);
 update_alarms(hObject);
 
 function init_steps_axes(hObject, s)
@@ -55,7 +55,6 @@ if (succes)
     handles = guidata(hObject);
     handles.dataset_steps = data;
     guidata(hObject, handles);
-    newplot();
     if (max(y) == 0)
         bar(y, 'Parent', handles.step_axes);grid on;
     else
@@ -87,7 +86,6 @@ end
 if (succes)
     y = cell2mat({data(:).value});
     x = {data(:).time};
-    newplot();
     plot(y, 'Parent', handles.hr_axes);grid on;
     handles.hr_axes.XTickLabelRotation = 60;
     set(handles.hr_axes,'ylim',[0,max(y)]);
@@ -232,10 +230,9 @@ end
 if ( days_check && hour_check )
     set(handles.hour_panel,'ForegroundColor', 'black');
     set(handles.days_panel,'ForegroundColor', 'black');
-    m = str2double(min)+15;
-    hour_to_send = strcat(hour,':',min,'-',datestr(strcat(hour,':',num2str(m)), 'HH:MM'));
+    h = mod(str2double(hour)-1, 24);
+    hour_to_send = strcat(num2str(h),':',min,'-','00:00');
     add_alarm(hour_to_send, days)
-    handles = guidata(hObject);
     update_alarms(hObject);
 end
 

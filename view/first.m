@@ -18,13 +18,14 @@ end
 
 function first_OpeningFcn(hObject, eventdata, handles, varargin)
 handles.output = hObject;
-init(handles);
 guidata(hObject, handles);
+init(hObject);
 
 function varargout = first_OutputFcn(hObject, eventdata, handles) 
 varargout{1} = handles.output;
 
-function init(handles)
+function init(hObject)
+handles = guidata(hObject);
 set(handles.login_btn, 'Enable', 'off');
 
 function instructions_text_CreateFcn(hObject, eventdata, handles)
